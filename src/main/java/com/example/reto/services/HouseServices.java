@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Repository
@@ -66,8 +67,12 @@ public class HouseServices implements IHouseRepository {
 
     @Override
     public Mono<HouseModel> showById(Integer id) {
-        isEmpty();
-        return Mono.just(HogwarsHouse.get(id-1));
+//        isEmpty();
+//        return Mono.just(HogwarsHouse.get(id-1));
+        Mono<HouseModel> monoHouse = Flux.fromIterable(HogwarsHouse)
+                .filter(houseModel -> houseModel.getIdHouse()==id)
+                .next();
+        return monoHouse;
     }
 
     @Override
