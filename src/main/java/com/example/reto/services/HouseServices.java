@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class HouseServices implements IHouseRepository {
@@ -24,8 +25,17 @@ public class HouseServices implements IHouseRepository {
     return houses;
     }
     public List<HouseModel> addHouseNew(HouseModel newHouse ,List<HouseModel> houses){
-    houses.add(new HouseModel(newHouse.getIdHouse(), newHouse.getNameHouse(), newHouse.getDescriptionHouse(), newHouse.getFounderHouse(), newHouse.getFounderHouse(), newHouse.getElementHouse()));
+    houses.add(new HouseModel(newHouse.getIdHouse(),
+            newHouse.getNameHouse(),
+            newHouse.getDescriptionHouse(),
+            newHouse.getFounderHouse(),
+            newHouse.getFounderHouse(),
+            newHouse.getElementHouse()));
     return houses;
+    }
+
+    public List<HouseModel> isEmpty(){
+        return  HogwarsHouse.isEmpty() ? creationHouse(HogwarsHouse):HogwarsHouse;
     }
 
 
@@ -38,23 +48,32 @@ public class HouseServices implements IHouseRepository {
 
     @Override
     public Mono<HouseModel> updateHouse(HouseModel house) {
+        isEmpty();
+        HogwarsHouse.get(house.getIdHouse()).setNameHouse(house.getNameHouse());
+        HogwarsHouse.get(house.getIdHouse()).setDescriptionHouse(house.getDescriptionHouse());
+        HogwarsHouse.get(house.getIdHouse()).setFounderHouse(house.getFounderHouse());
+        HogwarsHouse.get(house.getIdHouse()).setAnimalHouse(house.getAnimalHouse());
+        HogwarsHouse.get(house.getIdHouse()).setElementHouse(house.getElementHouse());
         log.info(house.toString());
         return Mono.just(house);
     }
 
     @Override
     public Flux<HouseModel> showAll() {
-        HogwarsHouse = HogwarsHouse.isEmpty() ? creationHouse(HogwarsHouse):HogwarsHouse;
+        isEmpty();
         return Flux.fromIterable(HogwarsHouse);
     }
 
     @Override
-    public Mono<HouseModel> showById() {
-        return null;
+    public Mono<HouseModel> showById(Integer id) {
+        isEmpty();
+        return Mono.just(HogwarsHouse.get(id-1));
     }
 
     @Override
-    public Mono<Void> eliminar(Integer id) {
-        return null;
+    public Mono<Void> removeHouse(Integer id) {
+        isEmpty();
+        HogwarsHouse.remove(id-1);
+        return Mono.empty();
     }
 }

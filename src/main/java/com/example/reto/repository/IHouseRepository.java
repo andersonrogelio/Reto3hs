@@ -8,7 +8,7 @@ public interface IHouseRepository {
     Flux<HouseModel> addHouse(HouseModel house);
     Mono<HouseModel> updateHouse(HouseModel house);
     Flux<HouseModel> showAll();
-    Mono<HouseModel> showById();
-    Mono<Void> eliminar(Integer id);
+    Mono<HouseModel> showById(Integer id);
+    Mono<Void> removeHouse(Integer id);
 
 }
