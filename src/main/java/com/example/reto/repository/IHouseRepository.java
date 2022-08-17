@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface IHouseRepository {
     Flux<HouseModel> addHouse(HouseModel house);
-    Flux<HouseModel> updateHouse(HouseModel house);
+    Mono<HouseModel> updateHouse(HouseModel house);
     Flux<HouseModel> showAll();
     Mono<HouseModel> showById();
     Mono<Void> eliminar(Integer id);
