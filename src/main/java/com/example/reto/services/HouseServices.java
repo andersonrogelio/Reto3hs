@@ -44,19 +44,22 @@ public class HouseServices implements IHouseRepository {
     public Flux<HouseModel> addHouse(HouseModel house) {
         log.info(house.toString());
         addHouseNew(house,HogwarsHouse);
-        return Flux.fromIterable(HogwarsHouse);
+        return Flux.fromIterable(HogwarsHouse)
+                .filter(houseModel -> houseModel.getIdHouse()==house.getIdHouse());
     }
 
     @Override
     public Mono<HouseModel> updateHouse(HouseModel house) {
         isEmpty();
-        HogwarsHouse.get(house.getIdHouse()).setNameHouse(house.getNameHouse());
-        HogwarsHouse.get(house.getIdHouse()).setDescriptionHouse(house.getDescriptionHouse());
-        HogwarsHouse.get(house.getIdHouse()).setFounderHouse(house.getFounderHouse());
-        HogwarsHouse.get(house.getIdHouse()).setAnimalHouse(house.getAnimalHouse());
-        HogwarsHouse.get(house.getIdHouse()).setElementHouse(house.getElementHouse());
+        HogwarsHouse.get(house.getIdHouse()-1).setNameHouse(house.getNameHouse());
+        HogwarsHouse.get(house.getIdHouse()-1).setDescriptionHouse(house.getDescriptionHouse());
+        HogwarsHouse.get(house.getIdHouse()-1).setFounderHouse(house.getFounderHouse());
+        HogwarsHouse.get(house.getIdHouse()-1).setAnimalHouse(house.getAnimalHouse());
+        HogwarsHouse.get(house.getIdHouse()-1).setElementHouse(house.getElementHouse());
         log.info(house.toString());
-        return Mono.just(house);
+        return Flux.fromIterable(HogwarsHouse)
+                .filter(houseModel -> houseModel.getIdHouse()==house.getIdHouse())
+                .next();
     }
 
     @Override
@@ -67,8 +70,6 @@ public class HouseServices implements IHouseRepository {
 
     @Override
     public Mono<HouseModel> showById(Integer id) {
-//        isEmpty();
-//        return Mono.just(HogwarsHouse.get(id-1));
         Mono<HouseModel> monoHouse = Flux.fromIterable(HogwarsHouse)
                 .filter(houseModel -> houseModel.getIdHouse()==id)
                 .next();
