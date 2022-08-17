@@ -1,18 +1,28 @@
 package com.example.reto.model;
 
 public class HouseModel {
+    private Integer idHouse;
     private String nameHouse;
     private String descriptionHouse;
     private String founderHouse;
     private String animalHouse;
     private String elementHouse;
 
-    public HouseModel(String nameHouse, String descriptionHouse, String founderHouse, String animalHouse, String elementHouse) {
+    public HouseModel(Integer idHouse, String nameHouse, String descriptionHouse, String founderHouse, String animalHouse, String elementHouse) {
+        this.idHouse = idHouse;
         this.nameHouse = nameHouse;
         this.descriptionHouse = descriptionHouse;
         this.founderHouse = founderHouse;
         this.animalHouse = animalHouse;
         this.elementHouse = elementHouse;
+    }
+
+    public Integer getIdHouse() {
+        return idHouse;
+    }
+
+    public void setIdHouse(Integer idHouse) {
+        this.idHouse = idHouse;
     }
 
     public String getNameHouse() {
